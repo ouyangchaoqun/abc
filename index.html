@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no">
+		<title>日历</title>
+		<link rel="stylesheet" type="text/css" href="js/swiper-3.4.2.min.css" />
+		<script src="js/swiper-3.4.2.min.js"></script>
+
+		<style type="text/css">
+			html {
+				font-size: 62.5%;
+			}
+			
+			body {
+				font-size: 12px;
+				font-size: 1.2rem;
+			}
+			
+			p {
+				font-size: 14px;
+				font-size: 1.4rem;
+			}
+			
+			@media only screen and (min-width: 320px) {
+				html {
+					font-size: 62.5% !important;
+				}
+			}
+			
+			@media only screen and (min-width: 640px) {
+				html {
+					font-size: 125% !important;
+				}
+			}
+			
+			@media only screen and (min-width: 750px) {
+				html {
+					font-size: 150% !important;
+				}
+			}
+			
+			@media only screen and (min-width: 1242px) {
+				html {
+					font-size: 187.5% !important;
+				}
+			}
+			
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			#bg_back{
+				position:fixed;
+				top: 0;left: 0;
+				background: rgba(0,0,0,0.5);
+				height:100%;width:100%;
+				z-index:100;visibility: hidden;
+			}
+			.rl_header{
+				position: fixed;
+				top:22rem;
+				z-index: 99;
+				width:100%;
+				background: #fff;
+				padding-top: 2rem;
+			}
+			.calendar {
+				width: 100%;
+				border-radius: 0.5rem;
+				background: #FFFFFF;
+				z-index: 1;
+				position: relative;
+				top:31rem
+			}
+			
+			.b_header {
+				position: relative;
+				height: 3rem;
+				width: 100%;
+				text-align: center;
+				color: #666666;
+				margin-bottom: 1.5rem;
+				line-height: 3rem;
+			}
+			
+			.b_header p {
+				letter-spacing: 0.1rem;
+				font-size: 1.6rem;
+			}
+			
+			/*新改动.b_header p font-size:1.6rem  .b_header margin-bottom: 2.5rem; .clickBox top:15%*/
+			.old {
+				width: 2rem;
+				height: 2rem;
+				display: block;
+				background: url(img/back.jpg);
+				background-size: cover;
+				position: absolute;
+				left: 2.4rem;
+				top: 0.5rem;
+			}
+			
+			.next {
+				width: 2rem;
+				height: 2rem;
+				display: block;
+				background: url(img/goto.jpg);
+				background-size: cover;
+				position: absolute;
+				right: 2.4rem;
+				top: 0.5rem;
+			}
+			
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				text-align: center;
+			}
+			
+			.week_day {
+				margin-bottom: 1rem;
+			}
+			
+			.calendar_date td {
+				border: 0.1rem solid #EEEEEE;
+				height: 4rem;
+				vertical-align: text-top;
+				padding-top: 0.9rem;
+			}
+			
+			.calendar_date span {
+				margin-bottom: 0.6rem;
+				display: block;
+				font-size: 1.2rem;
+			}
+			
+			._moodimg {
+				margin: 0 auto;
+				width: 2.6rem;
+				height: 2.6rem;
+				display: block;
+				margin-bottom: 0.5rem;
+				background: url(img/rili_xl.png);
+				background-size: cover;
+			}
+			
+			.none {
+				display: none;
+			}
+			
+			.clickBox {
+				visibility: hidden;
+				text-align: center;
+				z-index:100;
+				border-radius: 1rem;
+				position: absolute;
+				top:45%;
+				left:50%;
+				margin-top:-9.4rem;
+				margin-left:-13.2rem;
+				font-size: 1.8rem;
+				color: #666666;
+				width:26.7rem;
+				height:20.4rem;
+			}
+			
+			
+			
+			.clickBox_time {
+				position: absolute;
+				bottom: 5%;
+				width: 100%;
+				height: 30%;
+				left: 50%;
+				margin-left: -50%;
+			}
+			
+			.clickBox_time span {
+				font-size: 1.2rem;
+				color: #999999;
+				margin: 0 0.5rem;
+				line-height: 2.2rem;
+				;
+			}
+			
+			.clickBox_bottom {
+				font-size: 1.3rem;
+				color: #333333;
+				line-height: 1.5rem;
+				padding: 0 3.6rem;
+				overflow: auto;
+				height: 3.6rem;
+				
+				letter-spacing: 0.06rem;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<div id="bg_back" >
+			<div class="swiper-container clickBox" style="">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide" style="background:url(img/bg_mood_08.png) no-repeat;background-size: cover;">
+						<div class="clickBox_time">
+							<span>4月13日</span><span>星期四</span><span>08:20:40</span>
+							<div class="clickBox_bottom">今天很高兴今天很高兴今天很高兴今天很高兴今天很高兴今天很高兴今天很高兴天很高兴</div>
+						</div>
+					</div>
+					<div class="swiper-slide" style="background:url(img/bg_mood_01.png) no-repeat;background-size: cover;">
+						<div class="clickBox_time">
+							<span>4月13日</span><span>星期五</span><span>10:30:10</span>
+							<div class="clickBox_bottom">下雨没带伞，GG了</div>
+						</div>
+					</div>
+					<div class="swiper-slide" style="background:url(img/bg_mood_07.png) no-repeat;background-size: cover;">
+						<div class="clickBox_time">
+							<span>4月13日</span><span>星期六</span><span>11:20:40</span>
+							<div class="clickBox_bottom">周末可以睡懒觉了周末可以睡懒觉了周末可以睡懒觉了</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<img src="img/list_banner.png" style="height:25rem;width:100%;position: fixed;top:0;z-index: 99;"/>
+		<div class="rl_header" >
+			<div class="b_header">
+				<span class="old"></span>
+				<p><span class="time1"></span>年<span class="time2"></span>月</p>
+				<span class="next"></span>
+
+			</div>
+			<table class="week_day">
+				<tr>
+					<td>日</td>
+					<td>一</td>
+					<td>二</td>
+					<td>三</td>
+					<td>四</td>
+					<td>五</td>
+					<td>六</td>
+				</tr>
+			</table>
+		</div>
+		<div class="calendar">
+			
+			<div>
+				<table class="calendar_date" >
+					<tr>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+					</tr>
+
+					<tr>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+					</tr>
+					<tr>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+					</tr>
+					<tr>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+					</tr>
+					<tr>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+					</tr>
+					<tr>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+						<td><span></span></td>
+					</tr>
+
+				</table>
+			</div>
+
+		</div>
+		<script type="text/javascript">
+			var date = new Date();
+			var _month = date.getMonth();
+			var _year = date.getFullYear();
+			calendar(date)
+
+			function calendar(setDate) {
+				
+				// 星期几部分
+				var week_day = document.getElementsByClassName('week_day')[0];
+				var days = week_day.getElementsByTagName('td');
+				var date = new Date(setDate);
+				var y = date.getFullYear();
+				document.getElementsByClassName('time1')[0].innerHTML = y;
+				//console.log(document.getElementsByClassName('time1'))
+				var m = date.getMonth();
+				document.getElementsByClassName('time2')[0].innerHTML = m + 1;
+				var today = date.getDate();
+				//console.log(today)
+				var d = date.getDate();
+				//console.log(d)
+				// 本月
+				// 该月的第一天是星期几
+				var firstDay = new Date(y, m, 1).getDay();
+				//console.log(firstDay);
+				// 该月一共多少天
+				var lastData = new Date(y, m + 1, 0).getDate();
+				//console.log(lastData)
+				// 该月的最后一天是星期几
+				var lastDay = new Date(y, m + 1, 0).getDay();
+				//console.log(lastDay)
+				var calendar_date = document.getElementsByClassName('calendar_date')[0];
+				var tds = calendar_date.getElementsByTagName('td');
+				var spans = calendar_date.getElementsByTagName('span');
+				for(var x = 0;x<spans.length-1;x++){
+					spans[x].innerHTML = '';
+					//console.log(spans[x].nextSibling);
+					if(spans[x].nextSibling){
+						tds[x].removeChild(spans[x].nextSibling)
+					}
+				}
+
+				for(var i = firstDay; i < lastData + firstDay; i++) {
+					//console.log(i - firstDay + 1)
+					var date2 =  new Date();
+					if(date2.getMonth() == _month && i - firstDay + 1 == date.getDate()){
+						tds[i].style.background = '#fef8e5'
+					}else{
+						tds[i].style.background = '#fff'
+					}
+					spans[i].innerHTML = i - firstDay + 1;
+					var _div = document.createElement('div')
+					_div.setAttribute('class', '_moodimg ')
+					
+					tds[i].appendChild(_div);
+					
+					
+					tds[i].onclick = function(e) {
+						e = e || window.event;
+						e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+						document.getElementsByClassName('clickBox')[0].style.visibility = 'visible';
+						document.getElementById('bg_back').style.visibility = 'visible';
+					}
+					
+
+				}
+			}
+			//上个月
+			document.getElementsByClassName('old')[0].onclick = function(e){
+				
+				e = e || window.event;
+				e.stopPropagation?e.stopPropagation():e.cancelBubble = true;
+				_month--;
+				if(_month<0){
+					_month = 11;
+					date.setFullYear(date.getFullYear()-1);
+				}
+				date.setMonth(_month);
+				calendar(date);
+			};
+			//下个月
+			document.getElementsByClassName('next')[0].onclick = function(e){
+				e = e || window.event;
+				e.stopPropagation?e.stopPropagation():e.cancelBubble = true;
+				_month++;
+				if(_month>11){
+					_month = 0;
+					date.setFullYear(date.getFullYear()+1);
+				}
+				date.setMonth(_month);
+				calendar(date);
+			}
+			document.onclick = function() {
+				document.getElementsByClassName('clickBox')[0].style.visibility = 'hidden';
+				document.getElementById('bg_back').style.visibility = 'hidden';
+			}
+			
+		</script>
+		<script>
+			var mySwiper = new Swiper('.swiper-container', {
+				direction: 'horizontal',
+				loop: true
+			})
+		</script>
+
+		
+	</body>
+
+</html>

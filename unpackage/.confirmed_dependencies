@@ -1,0 +1,15 @@
+{
+	"index.html": {
+		"resources": [
+			"img/goto.jpg",
+			"img/bg_mood_08.png",
+			"img/list_banner.png",
+			"img/back.jpg",
+			"js/swiper-3.4.2.min.css",
+			"img/rili_xl.png",
+			"js/swiper-3.4.2.min.js",
+			"img/bg_mood_01.png",
+			"img/bg_mood_07.png"
+		]
+	}
+}
